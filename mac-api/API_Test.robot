@@ -1,5 +1,5 @@
 *** Settings ***
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           json
 Library           Collections
 Library           DatabaseLibrary
