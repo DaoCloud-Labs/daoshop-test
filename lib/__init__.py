@@ -1,6 +1,6 @@
 import sys
 sys.path.append('.')
-from lib.Mac_API import Login,Product,Registry,Buy
+from lib.daoshop_API import Login,Product,Registry,Buy
 
 
 class Mac_API(Login):

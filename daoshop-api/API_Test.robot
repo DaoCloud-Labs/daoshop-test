@@ -5,7 +5,7 @@ Library           Collections
 Library           DatabaseLibrary
 Library           ../lib/public_handle.py
 Variables         ../lib/global_var.py
-Library           ../lib/Mac_API.py
+Library           ../lib/daoshop_API.py
 
 *** Test Cases ***
 Login_success

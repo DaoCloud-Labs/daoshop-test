@@ -41,6 +41,7 @@ user_a_click
 
 # 登录操作
 login
+
     Open Browser    ${ui_login}    chrome
     login_username_input    ${ui_auto_username}
     login_password_input    ${ui_auto_password}
