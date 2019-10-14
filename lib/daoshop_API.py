@@ -33,11 +33,11 @@ class Login():
         if response.status_code == 200:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录成功")
-            return response.status_code
+            return True
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录失败")
-            return response.status_code
+            return False
 
         # print(url)
         # print(body)
@@ -60,9 +60,11 @@ class Login():
         if response.status_code == 200:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录成功")
+            return True
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录失败")
+            return False
 
 
 
@@ -81,9 +83,11 @@ class Login():
         if response.status_code == 200:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录成功")
+            return True
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:登录失败")
+            return False
 
 
 class Registry():
@@ -109,9 +113,11 @@ class Registry():
         if response.status_code == 200:
             print("返回内容为:%s" % response.json())
             print("测试结果:注册成功")
+            return True
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:注册失败")
+            return False
 
 class Product():
     def __init__(self):
@@ -129,24 +135,46 @@ class Product():
         if response.status_code == 200:
             print("返回内容为:%s" % response.json())
             print("测试结果:获取产品数据成功")
+            return True
 
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:获取产品数据失败")
+            return False
 
 
 class Buy():
     def __init__(self):
         self.url_buy = global_var.url_buy
         self.host = global_var.host
+        self.auto_username = global_var.auto_username
+        self.auto_password = global_var.auto_password
+        self.url_login = global_var.url_login
 
     def Buy_product(self):
+        # 获取token
+        url_login = "http://" + self.host + self.url_login
+        body_login = {
+            "username": self.auto_username,
+            "password": self.auto_password
+        }
+        headers_login = {'content-type': "application/json"}
+        response = requests.post(url_login, data=json.dumps(body_login), headers=headers_login)
+        res = response.json()
+        if "id" in res.keys():
+            id = str(res["id"])
+        else:
+            id = "1"
+
+        print("token为%s" % id)
+
         url = "http://" + self.host + self.url_buy
         body = [
             {"productId": 1, "count": 1},
             {"productId": 2, "count": 1}
         ]
-        headers = {'content-type': "application/json", 'token': "1"}
+
+        headers = {'content-type': "application/json", 'token': id}
         response = requests.post(url, data=json.dumps(body), headers=headers)
         # assert response.status_code == 500, "登录失败"
         print("url为:"+url)
@@ -156,9 +184,11 @@ class Buy():
         if response.status_code == 200:
             print("返回内容为:%s" % response.status_code)
             print("测试结果:购买成功")
+            return True
         else:
             print("返回内容为:%s" % response.json())
             print("测试结果:购买失败")
+            return False
 
 
 
@@ -176,9 +206,11 @@ class Buy():
         if response.status_code == 200:
             print("测试结果:购买成功")
             print(response.status_code)
+            return True
         else:
             print("测试结果:购买失败")
             print(response.json())
+            return False
 
 
 def login_success():
@@ -186,7 +218,7 @@ def login_success():
     print("======================")
     print("01用户名密码正确")
     login = Login()
-    login.Login_Success()
+    return login.Login_Success()
 
 
 def login_error_username():
@@ -194,7 +226,7 @@ def login_error_username():
     print("======================")
     print("02用户名错误")
     login = Login()
-    login.Login_username_no_exit()
+    return login.Login_username_no_exit()
 
 
 def login_error_password():
@@ -202,14 +234,14 @@ def login_error_password():
     print("======================")
     print("03密码错误")
     login = Login()
-    login.Login_error_password()
+    return login.Login_error_password()
 
 def registry_success():
     print("API_test:Registry")
     print("======================")
     print("01用户名密码注册")
     registry = Registry()
-    registry.Registry_success()
+    return registry.Registry_success()
 
 
 def get_product():
@@ -217,7 +249,7 @@ def get_product():
     print("======================")
     print("01获取产品数据")
     product = Product()
-    product.Get_product()
+    return product.Get_product()
 
 
 def buy_product():
@@ -225,7 +257,7 @@ def buy_product():
     print("======================")
     print("01购买产品_body正确")
     buy = Buy()
-    buy.Buy_product()
+    return buy.Buy_product()
 
 
 def buy_product_error():
@@ -233,7 +265,7 @@ def buy_product_error():
     print("======================")
     print("02购买产品_body出错")
     buy = Buy()
-    buy.Buy_product_error()
+    return  buy.Buy_product_error()
 
 
 
@@ -272,7 +304,7 @@ if __name__ == '__main__':
     print("======================")
     print("01购买产品成功")
     buy = Buy()
-    buy.buy_product()
+    buy.Buy_product()
     print("02购买产品失败")
-    buy.buy_product_error()
+    buy.Buy_product_error()
 
