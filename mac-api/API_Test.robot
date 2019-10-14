@@ -2,7 +2,7 @@
 # Library           HttpLibrary.HTTP
 Library           json
 Library           Collections
-Library           DatabaseLibrary
+# Library           DatabaseLibrary
 Library           ../lib/public_handle.py
 Variables         ../lib/global_var.py
 Library           ../lib/Mac_API.py
